@@ -1,0 +1,108 @@
+.custom-navbar {
+  background-color: #343a40;
+}
+
+.custom-navbar .navbar-brand {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.custom-navbar .navbar-nav .nav-link {
+  color: #ffffff;
+}
+
+.custom-navbar .navbar-nav .nav-link:hover {
+  color: #f8f9fa;
+}
+
+.custom-navbar .navbar-cta img {
+  width: 24px;
+  height: 24px;
+}
+.hero {
+  background: #f5f5f5;
+  padding: 50px 0;
+}
+
+.hero .intro-excerpt h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+.site-blocks-table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+}
+
+.site-blocks-table .table {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.product-thumbnail img {
+  width: 100px;
+  height: auto;
+}
+
+.product-name h2 {
+  font-size: 1.25rem;
+  color: #000;
+}
+
+.quantity-container {
+  max-width: 120px;
+}
+
+.quantity-container .btn {
+  border: 1px solid #000;
+}
+.footer-section {
+  background-color: #f8f9fa;
+  padding: 50px 0;
+}
+
+.footer-section .footer-logo-wrap {
+  margin-bottom: 1rem;
+}
+
+.footer-section .footer-logo {
+  font-size: 1.5rem;
+  color: #000;
+}
+
+.footer-section .footer-logo span {
+  color: #e9b44c;
+}
+
+.footer-section p {
+  color: #6c757d;
+}
+
+.footer-section .custom-social a {
+  color: #6c757d;
+  font-size: 1.25rem;
+}
+
+.footer-section .custom-social a:hover {
+  color: #000;
+}
+
+.footer-section .links-wrap ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section .links-wrap ul li a {
+  color: #6c757d;
+  text-decoration: none;
+}
+
+.footer-section .links-wrap ul li a:hover {
+  color: #000;
+}
+
+.copyright {
+  background-color: #e9ecef;
+  padding: 15px 0;
+  font-size: 0.875rem;
+}
