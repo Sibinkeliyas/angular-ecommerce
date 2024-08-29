@@ -35,6 +35,81 @@ export class HomeComComponent {
                 with an unwavering commitment to exceptional quality.`,
     },
   ];
+
+  products = [
+    {
+      name: 'Piqué Biker Jacke',
+      imgUrl: 'url(../../../../img/product/product-1.jpg)',
+      price: 67.24,
+      isInCart: true,
+      isInWishlist: true,
+      new: true,
+      sale: false,
+    },
+    {
+      name: 'Piqué Biker Jacket',
+      imgUrl: 'url(../../../../img/product/product-2.jpg)',
+      price: 67.24,
+      isInCart: true,
+      isInWishlist: false,
+      new: false,
+      sale: false,
+    },
+    {
+      name: 'Multi-pocket Chest Bag',
+      imgUrl: 'url(../../../../img/product/product-3.jpg)',
+      price: 48.21,
+      isInCart: true,
+      isInWishlist: false,
+      new: true,
+      sale: false,
+    },
+    {
+      name: 'Diagonal Textured Cap',
+      imgUrl: 'url(../../../../img/product/product-4.jpg)',
+      price: 78.21,
+      isInCart: true,
+      isInWishlist: false,
+      new: false,
+      sale: false,
+    },
+    {
+      name: 'Lether Backpack',
+      imgUrl: 'url(../../../../img/product/product-5.jpg)',
+      price: '67.24',
+      isInCart: true,
+      isInWishlist: false,
+      new: false,
+      sale: true,
+    },
+    {
+      name: 'Ankle Boots',
+      imgUrl: 'url(../../../../img/product/product-6.jpg)',
+      price: 14.32,
+      isInCart: true,
+      isInWishlist: false,
+      new: false,
+      sale: false,
+    },
+    {
+      name: 'T-shirt Contrast Pocket',
+      imgUrl: 'url(../../../../img/product/product-7.jpg)',
+      price: 25.21,
+      isInCart: true,
+      isInWishlist: false,
+      new: false,
+      sale: false,
+    },
+    {
+      name: 'Basic Flowing Scarf',
+      imgUrl: 'url(../../../../img/product/product-8.jpg)',
+      price: '67.24',
+      isInCart: true,
+      isInWishlist: false,
+      new: false,
+      sale: true,
+    },
+  ];
   responsiveOptions = [
     {
       breakpoint: '1199px',
@@ -51,6 +126,5 @@ export class HomeComComponent {
       numVisible: 1,
       numScroll: 1,
     },
-  ]
-
+  ];
 }
