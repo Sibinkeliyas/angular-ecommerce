@@ -33,7 +33,6 @@
 @import url("../public/css/font-awesome.min.css");
 @import url("../public/css/magnific-popup.css");
 @import url("../public/css/nice-select.css");
-@import url("../public/css/owl.carousel.min.css");
 @import url("../public/css/slicknav.min.css");
 @import url("../public/css/bootstrap.min.css");
 /* @import url('../public/css/style.css.map'); */
@@ -598,13 +597,6 @@ ol {
 .hero__items {
   height: 800px;
   padding-top: 230px;
-  background-size: cover;
-  background-position: center;
-  transition: opacity 0.3s ease-in-out;
-  opacity: 0;
-}
-.hero__items.loaded {
-  opacity: 1;
 }
 
 .hero__text h6 {
@@ -3918,4 +3910,9 @@ ol {
   .categories__text:before {
     height: 250px;
   }
+}
+
+/* prime ng */
+.p-carousel-indicators {
+  display: none !important;
 }
