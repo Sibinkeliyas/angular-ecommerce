@@ -9,6 +9,8 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { ShopDetailsComponent } from './pages/shop-details/shop-details.component';
+import { AddProductPage } from './pages/admin/products/add-product/add-product.component';
+import { AdminLayout } from './components/layout/admin/admin.component';
 
 export const routes: Routes = [
   {
@@ -50,6 +52,17 @@ export const routes: Routes = [
       {
         path: 'product-details',
         component: ShopDetailsComponent,
+      },
+    ],
+  },
+  {
+    path: 'admin',
+    component: AdminLayout,
+    children: [
+      { path: '', redirectTo: 'add-products', pathMatch: 'full' }, // Redirect to add-products directly
+      {
+        path: 'add-products',
+        component: AddProductPage,
       },
     ],
   },

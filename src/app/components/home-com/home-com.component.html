@@ -104,22 +104,24 @@
         <div class="product__item">
           <div
             class="product__item__pic set-bg"
-            [style.backgroundImage]="product.imgUrl"
+            [ngStyle]="{ 'background-image': 'url(' + product.image + ')' }"
           >
-            <span class="label" *ngIf="product.new">New</span>
+            <span class="label" *ngIf="true">New</span>
             <span class="label" *ngIf="product.sale">Sale</span>
 
             <ul class="product__hover">
               <li>
                 <a href="#">
                   <img
-                    *ngIf="!product.isInWishlist"
+                    *ngIf="true"
                     src="../../../../img/icon/heart.png"
                     alt="" />
-                  <div class="py-2 d-flex justify-content-center align-items-center bg-white">
+                  <div
+                    class="py-2 d-flex justify-content-center align-items-center bg-white"
+                  >
                     <i
                       class="fa-solid fa-heart !bg-[#FFFF] text-danger"
-                      *ngIf="product.isInWishlist"
+                      *ngIf="false"
                     ></i></div
                 ></a>
               </li>
