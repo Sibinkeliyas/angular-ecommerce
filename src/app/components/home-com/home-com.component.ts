@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { ProductService } from '../../services/product.service';
 import { IProducts } from '../../models/product';
+import { API_BASE_URL } from '../../../config';
 
 @Component({
   selector: 'app-home-com',
@@ -22,6 +23,7 @@ import { IProducts } from '../../models/product';
 })
 export class HomeComComponent {
   constructor(private productService: ProductService) {}
+  apiBaseUrl = API_BASE_URL;
   items = [
     {
       image: 'url(../../../../img/hero/hero-1.jpg)',
@@ -64,8 +66,9 @@ export class HomeComComponent {
 
   getAllProducts() {
     this.productService.getProducts().subscribe((res) => {
-      this.products = res;
       console.log(res);
+
+      this.products = res;
     });
   }
 }
