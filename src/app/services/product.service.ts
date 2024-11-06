@@ -10,7 +10,13 @@ import { IProducts } from '../models/product';
 export class ProductService {
   constructor(private http: HttpClient) {}
 
-  getProducts(): Observable<IProducts[]> {
+  getSaleProducts(): Observable<IProducts[]> {
+    return this.http.get<IProducts[]>(
+      `${API_BASE_URL}/products/find-sale-products`
+    );
+  }
+
+  getAllProducts(): Observable<IProducts[]> {
     return this.http.get<IProducts[]>(`${API_BASE_URL}/products`);
   }
 }

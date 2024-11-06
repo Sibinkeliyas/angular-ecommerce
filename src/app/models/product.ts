@@ -8,6 +8,6 @@ export interface IProducts {
   name: string;
   price: 43;
   rating: 4.2;
-  sale: false;
+  sale: boolean;
   updatedAt: string;
 }

@@ -65,9 +65,7 @@ export class HomeComComponent {
   }
 
   getAllProducts() {
-    this.productService.getProducts().subscribe((res) => {
-      console.log(res);
-
+    this.productService.getSaleProducts().subscribe((res) => {
       this.products = res;
     });
   }
