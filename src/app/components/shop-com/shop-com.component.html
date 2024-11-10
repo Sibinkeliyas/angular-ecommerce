@@ -24,7 +24,13 @@
         <div class="shop__sidebar sticky top-[20px]">
           <div class="shop__sidebar__search">
             <form action="#">
-              <input type="text" placeholder="Search..." />
+              <input
+                type="text"
+                placeholder="Search..."
+                name="search"
+                [(ngModel)]="searchValue"
+                (ngModelChange)="handleSearch($event)"
+              />
               <button type="submit"><span class="icon_search"></span></button>
             </form>
           </div>
@@ -53,8 +59,18 @@
                     <div class="shop__sidebar__categories">
                       <ul class="nice-scroll">
                         @for (category of categories; track $index) {
-                        <li class="cursor-pointer">
-                          <a  >{{ category.categoryName }}</a>
+                        <li
+                          class="cursor-pointer flex justify-between items-center px-2"
+                        >
+                          <a>{{ category.categoryName }}</a>
+                          <input
+                            type="checkbox"
+                            name="{{ category._id }}"
+                            value="{{ category._id }}"
+                            (change)="
+                              handleFilter('categories', category._id, $event)
+                            "
+                          />
                         </li>
                         }
                       </ul>
@@ -85,8 +101,14 @@
                     <div class="shop__sidebar__categories">
                       <ul class="nice-scroll">
                         @for (brand of brands; track $index) {
-                        <li>
+                        <li class="flex justify-between items-center">
                           <a href="#">{{ brand.brandName }}</a>
+                          <input
+                            type="checkbox"
+                            name="{{ brand._id }}"
+                            value="{{ brand._id }}"
+                            (change)="handleFilter('brands', brand._id, $event)"
+                          />
                         </li>
                         }
                       </ul>
@@ -116,7 +138,7 @@
                   <div class="card-body">
                     <div class="shop__sidebar__price">
                       <ul>
-                        <li><a >$0.00 - $50.00</a></li>
+                        <li><a>$0.00 - $50.00</a></li>
                         <li><a href="#">$50.00 - $100.00</a></li>
                         <li><a href="#">$100.00 - $150.00</a></li>
                         <li><a href="#">$150.00 - $200.00</a></li>
@@ -149,9 +171,19 @@
                   <div class="card-body">
                     <div class="shop__sidebar__size">
                       @for (size of sizes; track $index) {
-                      <label for="xs"
+                      <label
+                        for="{{ size.sizeName }}"
+                        [ngClass]="
+                          filterObj['sizes'].includes(size._id)
+                            ? 'bg-[#f7f7ff]'
+                            : ''
+                        "
                         >{{ size.sizeName }}
-                        <input type="radio" id="xs" />
+                        <input
+                          type="radio"
+                          id="{{ size.sizeName }}"
+                          (click)="handleSelectSize(size._id)"
+                        />
                       </label>
                       }
                     </div>
@@ -233,16 +265,18 @@
           <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6">
               <div class="shop__product__option__left">
-                <p>Showing 1–12 of 126 results</p>
+                <p>
+                  Showing {{ limit + 1 }}–{{ (limit + 1) * perPage }} of
+                  {{ totalProducts }} results
+                </p>
               </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6">
               <div class="shop__product__option__right">
                 <p>Sort by Price:</p>
-                <select>
-                  <option value="">Low To High</option>
-                  <option value="">$0 - $55</option>
-                  <option value="">$55 - $100</option>
+                <select (change)="onSort($event)">
+                  <option value="{{ 1 }}">Low To High</option>
+                  <option value="{{ -1 }}">High To Low</option>
                 </select>
               </div>
             </div>
@@ -285,7 +319,7 @@
                           </div>
                       </div> -->
 
-          @for( product of products; track product){
+          @for( product of products; track product._id){
           <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="product__item sale">
               <div
@@ -316,7 +350,11 @@
               </div>
               <div class="product__item__text">
                 <h6>{{ product.name }}</h6>
-                <a href="#" class="add-cart">+ Add To Cart</a>
+                <a
+                  class="add-cart cursor-pointer"
+                  (click)="handleAddToCart(product._id)"
+                  >+ Add To Cart</a
+                >
                 <div class="rating">
                   <i class="fa fa-star"></i>
                   <i class="fa fa-star"></i>
@@ -694,16 +732,18 @@
                           </div>
                       </div> -->
         </div>
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="product__pagination">
-              <a class="active" href="#">1</a>
+        <div class="flex justify-content-center" *ngIf="totalProducts > 10">
+          <!-- <a class="active" href="#">1</a>
               <a href="#">2</a>
               <a href="#">3</a>
               <span>...</span>
-              <a href="#">21</a>
-            </div>
-          </div>
+              <a href="#">21</a> -->
+          <p-paginator
+            (onPageChange)="onPageChange($event)"
+            [first]="first"
+            [rows]="perPage"
+            [totalRecords]="totalProducts"
+          />
         </div>
       </div>
     </div>

@@ -3925,8 +3925,8 @@ ol {
 /* scroll */
 
 .nice-scroll {
-  overflow: auto; 
-  scrollbar-width: thin; 
+  overflow: auto;
+  scrollbar-width: thin;
   scroll-behavior: smooth;
 }
 
@@ -3953,4 +3953,37 @@ ol {
 
 .nice-scroll::-webkit-scrollbar-horizontal {
   display: none; /* Hides the horizontal scrollbar */
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page {
+  background-color: transparent;
+  border: 0 none;
+  color: #64748b;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  margin: 0.143rem;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s,
+    box-shadow 0.2s, outline-color 0.2s;
+  border-radius: 50%;
+}
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background: #eff6ff;
+  border-color: #eff6ff;
+  color: #1d4ed8;
+}
+.p-paginator .p-paginator-first,
+.p-paginator .p-paginator-prev,
+.p-paginator .p-paginator-next,
+.p-paginator .p-paginator-last {
+  background-color: transparent;
+  border: 0 none;
+  color: #64748b;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  margin: 0.143rem;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s,
+    box-shadow 0.2s, outline-color 0.2s;
+  border-radius: 50%;
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
 }

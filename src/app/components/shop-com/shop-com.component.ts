@@ -8,14 +8,38 @@ import { BrandService } from '../../services/brand.service';
 import { SizeService } from '../../services/size.service';
 import { IBrands } from '../../models/brand';
 import { ISize } from '../../models/size';
+import { ICartItemsProps } from '../../models/cart';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, Subject } from 'rxjs';
+import { PaginatorModule } from 'primeng/paginator';
+
+interface PageEvent {
+  first: number;
+  rows: number;
+  page: number;
+  pageCount: number;
+}
 
 @Component({
   selector: 'app-shop-com',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, PaginatorModule],
   templateUrl: './shop-com.component.html',
 })
 export class ShopComComponent {
+  private search: Subject<string> = new Subject();
+
+  constructor() {
+    this.search.pipe(debounceTime(300)).subscribe((res) => {
+      this.getSearchedProducts(res);
+    });
+  }
+
+  limit: number = 0;
+  first: number = 0;
+  perPage: number = 10;
+  totalProducts: number = 0;
+
   productServices = inject(ProductService);
   categoryServices = inject(CategoryService);
   brandServices = inject(BrandService);
@@ -25,17 +49,47 @@ export class ShopComComponent {
   categories: ICategories[] = [];
   brands: IBrands[] = [];
   sizes: ISize[] = [];
+  cartItems: ICartItemsProps[] = [];
+
+  searchValue: string = '';
+  sortType = 1;
+  filterObj: { [key: string]: string[] } = {
+    categories: [],
+    brands: [],
+    sizes: [],
+  };
 
   categoryAccrodion = false;
   brandAccordion = false;
   sizeAccordion = false;
   filterAccordion = false;
 
-  async ngOnInit() {
+  ngOnInit() {
     this.getAllProducts();
     this.getAllCategories();
     this.getAllBrands();
     this.getAllSize();
+  }
+
+  onPageChange(event: any) {
+    this.first = Number(event.first);
+    this.limit = event.page;
+    this.perPage = Number(event.rows);
+    this.getFilteredProducts();
+  }
+
+  handleSearch(event: string) {
+    this.search.next(event as any);
+  }
+
+  getSearchedProducts(value: string) {
+    this.getFilteredProducts();
+  }
+
+  handleAddToCart(id: string) {
+    const isItemAdded = this.cartItems.find((cart) => cart.productId === id);
+    if (isItemAdded) isItemAdded.quantity++;
+    else this.cartItems.push({ productId: id, quantity: 1 });
   }
 
   handleCategoryAccordion = () => {
@@ -54,9 +108,53 @@ export class ShopComComponent {
     this.sizeAccordion = !this.sizeAccordion;
   };
 
+  getUrl(): string {
+    let url = `?sort=${this.sortType}&limit=${this.limit}&perPage=${this.perPage}`;
+    url = this.searchValue ? `${url}&search=${this.searchValue}` : url;
+    for (const value in this.filterObj) {
+      if (this.filterObj[value].length) {
+        if (url) url = url + `&${value}=${this.filterObj[value].join(',')}`;
+        else url = `?${value}=${this.filterObj[value].join(',')}`;
+      }
+    }
+    return url || '';
+  }
+
+  onSort(event: Event) {
+    this.sortType = Number((event.target as HTMLInputElement).value);
+    this.getFilteredProducts();
+  }
+
+  handleFilter = async (key: string, value: string, event: Event) => {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) this.filterObj[key].push(value);
+    else
+      this.filterObj[key] = this.filterObj[key].filter((obj) => obj !== value);
+    this.getFilteredProducts();
+  };
+
+  handleSelectSize = (id: string) => {
+    const isSelected = this.filterObj['sizes'].find((size) => size === id);
+    if (isSelected)
+      this.filterObj['sizes'] = this.filterObj['sizes'].filter(
+        (size) => size !== id
+      );
+    else this.filterObj['sizes'].push(id);
+    this.getFilteredProducts();
+  };
+
+  getFilteredProducts() {
+    const url = this.getUrl();
+    this.productServices.getFilteredProducts(url).subscribe((res) => {
+      this.products = res.products;
+      this.totalProducts = res.totalProducts;
+    });
+  }
+
   getAllProducts = async () => {
     this.productServices.getAllProducts().subscribe((res) => {
-      this.products = res;
+      this.products = res.products;
+      this.totalProducts = res.totalProducts;
     });
   };
 

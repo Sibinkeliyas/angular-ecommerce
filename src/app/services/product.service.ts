@@ -16,7 +16,18 @@ export class ProductService {
     );
   }
 
-  getAllProducts(): Observable<IProducts[]> {
-    return this.http.get<IProducts[]>(`${API_BASE_URL}/products`);
+  getAllProducts(): Observable<{
+    totalProducts: number;
+    products: IProducts[];
+  }> {
+    return this.http.get<{ totalProducts: number; products: IProducts[] }>(
+      `${API_BASE_URL}/products`
+    );
+  }
+
+  getFilteredProducts(query: string): Observable<{ totalProducts: number; products: IProducts[] }> {
+    return this.http.get<{ totalProducts: number; products: IProducts[] }>(
+      `${API_BASE_URL}/products/find-filtered-products${query}`
+    );
   }
 }

@@ -11,6 +11,7 @@ import { CartComponent } from './pages/cart/cart.component';
 import { ShopDetailsComponent } from './pages/shop-details/shop-details.component';
 import { AddProductPage } from './pages/admin/products/add-product/add-product.component';
 import { AdminLayout } from './components/layout/admin/admin.component';
+import { SignInComponent } from './pages/sign-in/sign-in.component';
 
 export const routes: Routes = [
   {
@@ -65,5 +66,9 @@ export const routes: Routes = [
         component: AddProductPage,
       },
     ],
+  },
+  {
+    path: 'sign-in',
+    component: SignInComponent,
   },
 ];
