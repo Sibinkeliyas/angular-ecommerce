@@ -12,6 +12,7 @@ import { ShopDetailsComponent } from './pages/shop-details/shop-details.componen
 import { AddProductPage } from './pages/admin/products/add-product/add-product.component';
 import { AdminLayout } from './components/layout/admin/admin.component';
 import { SignInComponent } from './pages/sign-in/sign-in.component';
+import { authGuard } from './services/auth.guard';
 
 export const routes: Routes = [
   {
@@ -43,12 +44,18 @@ export const routes: Routes = [
         component: ContactComponent,
       },
       {
-        path: 'checkout',
-        component: CheckoutComponent,
-      },
-      {
-        path: 'cart',
-        component: CartComponent,
+        path: '',
+        canActivate: [authGuard],
+        children: [
+          {
+            path: 'checkout',
+            component: CheckoutComponent,
+          },
+          {
+            path: 'cart',
+            component: CartComponent,
+          },
+        ],
       },
       {
         path: 'product-details',

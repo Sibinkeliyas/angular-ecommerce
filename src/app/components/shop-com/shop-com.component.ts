@@ -12,6 +12,7 @@ import { ICartItemsProps } from '../../models/cart';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, Subject } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
+import { CartService } from '../../services/cart.service';
 
 interface PageEvent {
   first: number;
@@ -44,6 +45,7 @@ export class ShopComComponent {
   categoryServices = inject(CategoryService);
   brandServices = inject(BrandService);
   sizeServices = inject(SizeService);
+  cartService = inject(CartService);
 
   products: IProducts[] = [];
   categories: ICategories[] = [];
@@ -87,9 +89,16 @@ export class ShopComComponent {
   }
 
   handleAddToCart(id: string) {
+    console.log('get call');
+
     const isItemAdded = this.cartItems.find((cart) => cart.productId === id);
     if (isItemAdded) isItemAdded.quantity++;
     else this.cartItems.push({ productId: id, quantity: 1 });
+    this.cartService
+      .addToCart({ productId: id, quantity: 1 })
+      .subscribe((res) => {
+        console.log(res);
+      });
   }
 
   handleCategoryAccordion = () => {

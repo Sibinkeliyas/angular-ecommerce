@@ -2,6 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Route, Router, RouterModule } from '@angular/router';
+import { UserService } from '../../services/user.service';
+import { ILoginApiResponse, LoginModel } from '../../models/auth';
+import { SessionService } from '../../services/session.service';
+import { AUTH } from '../../models/enum';
 
 @Component({
   selector: 'app-sign-in-com',
@@ -12,16 +16,29 @@ import { Route, Router, RouterModule } from '@angular/router';
 })
 export class SignInComComponent {
   router = inject(Router);
+  userService = inject(UserService);
+  sessionService = inject(SessionService);
 
-  userName: string = '';
-  password: string = '';
+  login: LoginModel;
+
+  constructor() {
+    this.login = new LoginModel();
+  }
 
   onRegisterRedirect() {
     this.router && this.router?.navigate(['/sign-up']);
   }
 
-  onSubmit () {
-    console.log(this.userName, this.password);
-    
+  onSubmit() {
+    this.userService
+      .userLogin(this.login.email, this.login.password)
+      .subscribe((res: ILoginApiResponse) => {
+        if (res)
+          this.sessionService.setSession(
+            AUTH.ACCESS_TOKEN_KEY,
+            res.access_token
+          );
+        this.router.navigateByUrl('/');
+      });
   }
 }
