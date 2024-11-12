@@ -13,6 +13,7 @@ import { AddProductPage } from './pages/admin/products/add-product/add-product.c
 import { AdminLayout } from './components/layout/admin/admin.component';
 import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { authGuard } from './services/auth.guard';
+import { SignUpComponent } from './pages/sign-up/sign-up.component';
 
 export const routes: Routes = [
   {
@@ -75,7 +76,16 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'sign-in',
-    component: SignInComponent,
+    path: '',
+    children: [
+      {
+        path: 'sign-in',
+        component: SignInComponent,
+      },
+      {
+        path: 'sign-up',
+        component: SignUpComponent,
+      },
+    ],
   },
 ];

@@ -8,7 +8,7 @@
 <div class="offcanvas-menu-wrapper">
   <div class="offcanvas__option">
     <div class="offcanvas__links">
-      <a href="#">Sign in</a>
+      <a [routerLink]="'/home'">Sign in</a>
       <a href="#">FAQs</a>
     </div>
     <div class="offcanvas__top__hover">
@@ -48,7 +48,8 @@
         <div class="col-lg-6 col-md-5">
           <div class="header__top__right">
             <div class="header__top__links">
-              <a href="#">Sign in</a>
+              <a [routerLink]="'/sign-in'" *ngIf="!isUserLoggedIn">Sign in</a>
+              <a *ngIf="isUserLoggedIn" class="text-[#fff] hover:!text-[#FFF]">{{ user?.userName }}</a>
               <a href="#">FAQs</a>
             </div>
             <div class="header__top__hover">
@@ -74,9 +75,15 @@
       <div class="col-lg-6 col-md-6">
         <nav class="header__menu mobile-menu">
           <ul>
-            <li [ngClass]="{'active' : activePage === ''}"><a [routerLink]="'/'">Home</a></li>
-            <li [ngClass]="{'active' : activePage === 'shop'}"><a [routerLink]="'/shop'">Shop</a></li>
-            <li [ngClass]="{'active' : activePage === 'contact-us'}"><a [routerLink]="'/contact-us'">Contacts</a></li>
+            <li [ngClass]="{ active: activePage === '' }">
+              <a [routerLink]="'/'">Home</a>
+            </li>
+            <li [ngClass]="{ active: activePage === 'shop' }">
+              <a [routerLink]="'/shop'">Shop</a>
+            </li>
+            <li [ngClass]="{ active: activePage === 'contact-us' }">
+              <a [routerLink]="'/contact-us'">Contacts</a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -85,8 +92,12 @@
           <!-- <a href="#" class="search-switch"
             ><img src="img/icon/search.png" alt=""
           /></a> -->
-          <a [routerLink]="'wishlist'"><img src="img/icon/heart.png" alt="" /></a>
-          <a [routerLink]="'cart'"><img src="img/icon/cart.png" alt="" /> <span>0</span></a>
+          <a [routerLink]="'wishlist'"
+            ><img src="img/icon/heart.png" alt=""
+          /></a>
+          <a [routerLink]="'cart'"
+            ><img src="img/icon/cart.png" alt="" /> <span>0</span></a
+          >
           <div class="price">$0.00</div>
         </div>
       </div>
