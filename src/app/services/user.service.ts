@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { API_BASE_URL } from '../../config';
 import { Observable } from 'rxjs';
-import { ILoginApiResponse } from '../models/auth';
+import { ILoginApiResponse, RegisterModel } from '../models/auth';
 import { SessionService } from './session.service';
 import { AUTH } from '../models/enum';
 
@@ -17,6 +17,19 @@ export class UserService {
   userLogin(email: string, password: string): Observable<ILoginApiResponse> {
     return this.http.get<ILoginApiResponse>(
       `${API_BASE_URL}/authentication/${email}/${password}`
+    );
+  }
+
+  userRegistration(data: RegisterModel): Observable<ILoginApiResponse> {
+    return this.http.post<ILoginApiResponse>(
+      `${API_BASE_URL}/authentication`,
+      data
+    );
+  }
+
+  getUserById(): Observable<RegisterModel> {
+    return this.http.get<RegisterModel>(
+      `${API_BASE_URL}/authentication/get-user`
     );
   }
 

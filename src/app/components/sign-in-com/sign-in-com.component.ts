@@ -36,7 +36,7 @@ export class SignInComComponent {
         if (res)
           this.sessionService.setSession(
             AUTH.ACCESS_TOKEN_KEY,
-            res.access_token
+            res.data.access_token
           );
         this.router.navigateByUrl('/');
       });
