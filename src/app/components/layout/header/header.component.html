@@ -48,8 +48,14 @@
         <div class="col-lg-6 col-md-5">
           <div class="header__top__right">
             <div class="header__top__links">
-              <a [routerLink]="'/sign-in'" *ngIf="!isUserLoggedIn">Sign in</a>
-              <a *ngIf="isUserLoggedIn" class="text-[#fff] hover:!text-[#FFF]">{{ user?.userName }}</a>
+              <a [routerLink]="'/sign-in'" *ngIf="!(isUserLoggedIn$ | async)"
+                >Sign in</a
+              >
+              <a
+                *ngIf="isUserLoggedIn$ | async"
+                class="text-[#fff] hover:!text-[#FFF]"
+                >{{ (user$ | async)?.userName }}</a
+              >
               <a href="#">FAQs</a>
             </div>
             <div class="header__top__hover">
@@ -96,7 +102,8 @@
             ><img src="img/icon/heart.png" alt=""
           /></a>
           <a [routerLink]="'cart'"
-            ><img src="img/icon/cart.png" alt="" /> <span>0</span></a
+            ><img src="img/icon/cart.png" alt="" />
+            <span class="mb-1">{{ cartCount$ | async }}</span></a
           >
           <div class="price">$0.00</div>
         </div>

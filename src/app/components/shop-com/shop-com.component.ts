@@ -13,6 +13,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, Subject } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
 import { CartService } from '../../services/cart.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../state/app.state';
+import { increaseCartCount } from '../../state/cart/cart.actions';
 
 interface PageEvent {
   first: number;
@@ -30,7 +33,7 @@ interface PageEvent {
 export class ShopComComponent {
   private search: Subject<string> = new Subject();
 
-  constructor() {
+  constructor(private store: Store<AppState>) {
     this.search.pipe(debounceTime(300)).subscribe((res) => {
       this.getSearchedProducts(res);
     });
@@ -89,8 +92,7 @@ export class ShopComComponent {
   }
 
   handleAddToCart(id: string) {
-    console.log('get call');
-
+    this.store.dispatch(increaseCartCount());
     const isItemAdded = this.cartItems.find((cart) => cart.productId === id);
     if (isItemAdded) isItemAdded.quantity++;
     else this.cartItems.push({ productId: id, quantity: 1 });

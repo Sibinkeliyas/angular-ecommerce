@@ -519,7 +519,7 @@ ol {
 	font-size: 11px;
 	position: absolute;
 	left: 5px;
-	top: 8px;
+	top: 4px;
 }
 
 .header__nav__option a:last-child {
@@ -533,7 +533,7 @@ ol {
 	display: inline-block;
 	margin-left: -20px;
 	position: relative;
-	top: 3px;
+	top: -2px;
 }
 
 .offcanvas-menu-wrapper {

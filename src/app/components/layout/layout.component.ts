@@ -4,7 +4,8 @@ import { FooterComponent } from './footer/footer.component';
 import { RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectCartState } from '../../state/cart/cart.selector';
+import { selectCartCount } from '../../state/cart/cart.selector';
+import { AppState } from '../../state/app.state';
 
 @Component({
   selector: 'app-layout',
@@ -13,9 +14,9 @@ import { selectCartState } from '../../state/cart/cart.selector';
   templateUrl: './layout.component.html',
 })
 export class LayoutComponent {
-  cartCount$ = Observable<number>;
+  cartCount$: Observable<number>; 
 
-  constructor(private store: Store<{}>) {
-    this.cartCount$ = this.store.dispatch(selectCartState());
+  constructor(private store: Store<AppState>) {
+    this.cartCount$ = this.store.select(selectCartCount);
   }
 }
