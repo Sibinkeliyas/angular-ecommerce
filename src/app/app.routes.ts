@@ -14,6 +14,7 @@ import { AdminLayout } from './components/layout/admin/admin.component';
 import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { authGuard } from './services/auth.guard';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
+import { unAuthGuard } from './services/unauth.guard';
 
 export const routes: Routes = [
   {
@@ -77,6 +78,7 @@ export const routes: Routes = [
   },
   {
     path: '',
+    canActivate: [unAuthGuard],
     children: [
       {
         path: 'sign-in',
