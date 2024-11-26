@@ -8,14 +8,22 @@ import { BrandService } from '../../services/brand.service';
 import { SizeService } from '../../services/size.service';
 import { IBrands } from '../../models/brand';
 import { ISize } from '../../models/size';
-import { ICartItemsProps } from '../../models/cart';
+import { ICartApiResponse, ICartItemsProps } from '../../models/cart';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, Subject } from 'rxjs';
+import { debounceTime, Observable, Subject } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
 import { CartService } from '../../services/cart.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../state/app.state';
-import { increaseCartCount } from '../../state/cart/cart.actions';
+import {
+  increaseCartCount,
+  loadCartItems,
+  loadCartItemsSuccess,
+} from '../../state/cart/cart.actions';
+import { MessageService } from 'primeng/api';
+import { CartEffect } from '../../state/cart/cart.effects';
+import { selectCartItems } from '../../state/cart/cart.selector';
+import { RouterModule } from '@angular/router';
 
 interface PageEvent {
   first: number;
@@ -27,16 +35,24 @@ interface PageEvent {
 @Component({
   selector: 'app-shop-com',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, PaginatorModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PaginatorModule,
+    RouterModule,
+  ],
   templateUrl: './shop-com.component.html',
 })
 export class ShopComComponent {
   private search: Subject<string> = new Subject();
+  cart$: Observable<ICartApiResponse[]>;
 
   constructor(private store: Store<AppState>) {
     this.search.pipe(debounceTime(300)).subscribe((res) => {
       this.getSearchedProducts(res);
     });
+    this.cart$ = this.store.select(selectCartItems);
   }
 
   limit: number = 0;
@@ -49,6 +65,8 @@ export class ShopComComponent {
   brandServices = inject(BrandService);
   sizeServices = inject(SizeService);
   cartService = inject(CartService);
+  messageService = inject(MessageService);
+  cartEffects = inject(CartEffect);
 
   products: IProducts[] = [];
   categories: ICategories[] = [];
@@ -74,6 +92,7 @@ export class ShopComComponent {
     this.getAllCategories();
     this.getAllBrands();
     this.getAllSize();
+    this.cartEffects.loadCarts$;
   }
 
   onPageChange(event: any) {
@@ -92,14 +111,18 @@ export class ShopComComponent {
   }
 
   handleAddToCart(id: string) {
-    this.store.dispatch(increaseCartCount());
-    const isItemAdded = this.cartItems.find((cart) => cart.productId === id);
-    if (isItemAdded) isItemAdded.quantity++;
-    else this.cartItems.push({ productId: id, quantity: 1 });
     this.cartService
       .addToCart({ productId: id, quantity: 1 })
       .subscribe((res) => {
-        console.log(res);
+        this.cart$.subscribe((res) => {
+          this.store.dispatch(loadCartItems());
+        });
+
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Message Content',
+        });
       });
   }
 

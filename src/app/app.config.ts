@@ -6,6 +6,9 @@ import { jwtInterceptor } from './interceptors/jwt.interceptor';
 import { provideState, provideStore } from '@ngrx/store';
 import { cartReducer } from './state/cart/cart.reducer';
 import { userReducer } from './state/user/user.reducer';
+import {  provideAnimationsAsync} from '@angular/platform-browser/animations/async';
+import { provideEffects } from '@ngrx/effects';
+import { CartEffect } from './state/cart/cart.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,5 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([jwtInterceptor])),
     provideState({ name: 'cart', reducer: cartReducer }),
     provideState({ name: 'user', reducer: userReducer }),
+    provideAnimationsAsync(),
+    provideEffects(CartEffect)
   ],
 };

@@ -6,6 +6,7 @@ import { UserService } from '../../services/user.service';
 import { ILoginApiResponse, LoginModel } from '../../models/auth';
 import { SessionService } from '../../services/session.service';
 import { AUTH } from '../../models/enum';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-sign-in-com',
@@ -18,6 +19,7 @@ export class SignInComComponent {
   router = inject(Router);
   userService = inject(UserService);
   sessionService = inject(SessionService);
+  messageService = inject(MessageService);
 
   login: LoginModel;
 
@@ -33,12 +35,19 @@ export class SignInComComponent {
     this.userService
       .userLogin(this.login.email, this.login.password)
       .subscribe((res: ILoginApiResponse) => {
-        if (res)
+        if (res && res.success) {
           this.sessionService.setSession(
             AUTH.ACCESS_TOKEN_KEY,
             res.data.access_token
           );
-        this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/');
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Auth Failed',
+            detail: "You'r credentials are wrong",
+          });
+        }
       });
   }
 }

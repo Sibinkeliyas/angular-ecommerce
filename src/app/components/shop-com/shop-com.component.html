@@ -322,32 +322,34 @@
           @for( product of products; track product._id){
           <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="product__item sale">
-              <div
-                class="product__item__pic set-bg"
-                [ngStyle]="{
-                  'background-image':
-                    'url(' +
-                    'http://localhost:3000/uploads/' +
-                    product.images[0] +
-                    ')'
-                }"
-              >
-                <span class="label" *ngIf="product.sale === true">Sale</span>
-                <ul class="product__hover">
-                  <li>
-                    <a href="#"><img src="img/icon/heart.png" alt="" /></a>
-                  </li>
-                  <li>
-                    <a href="#"
-                      ><img src="img/icon/compare.png" alt="" />
-                      <span>Compare</span></a
-                    >
-                  </li>
-                  <li>
-                    <a href="#"><img src="img/icon/search.png" alt="" /></a>
-                  </li>
-                </ul>
-              </div>
+              <a [routerLink]="'/shop/' + product._id">
+                <div
+                  class="product__item__pic set-bg"
+                  [ngStyle]="{
+                    'background-image':
+                      'url(' +
+                      'http://localhost:3000/uploads/' +
+                      product.images[0] +
+                      ')'
+                  }"
+                >
+                  <span class="label" *ngIf="product.sale === true">Sale</span>
+                  <ul class="product__hover">
+                    <li>
+                      <a href="#"><img src="img/icon/heart.png" alt="" /></a>
+                    </li>
+                    <li>
+                      <a href="#"
+                        ><img src="img/icon/compare.png" alt="" />
+                        <span>Compare</span></a
+                      >
+                    </li>
+                    <li>
+                      <a href="#"><img src="img/icon/search.png" alt="" /></a>
+                    </li>
+                  </ul>
+                </div>
+              </a>
               <div class="product__item__text">
                 <h6>{{ product.name }}</h6>
                 <a

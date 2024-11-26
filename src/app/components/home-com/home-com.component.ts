@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 // import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { CarouselModule } from 'primeng/carousel';
@@ -8,6 +8,14 @@ import { TagModule } from 'primeng/tag';
 import { ProductService } from '../../services/product.service';
 import { IProducts } from '../../models/product';
 import { API_BASE_URL } from '../../../config';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../state/app.state';
+import { CartService } from '../../services/cart.service';
+import { MessageService } from 'primeng/api';
+import { increaseCartCount, loadCartItems, loadCartItemsSuccess } from '../../state/cart/cart.actions';
+import { Observable } from 'rxjs';
+import { ICartApiResponse } from '../../models/cart';
+import { selectCartItems } from '../../state/cart/cart.selector';
 
 @Component({
   selector: 'app-home-com',
@@ -22,7 +30,17 @@ import { API_BASE_URL } from '../../../config';
   templateUrl: './home-com.component.html',
 })
 export class HomeComComponent {
-  constructor(private productService: ProductService) {}
+  cart$: Observable<ICartApiResponse[]>;
+
+  constructor(
+    private productService: ProductService,
+    private store: Store<AppState>
+  ) {
+    this.cart$ = this.store.select(selectCartItems);
+  }
+  cartService = inject(CartService);
+  messageService = inject(MessageService);
+
   apiBaseUrl = API_BASE_URL;
   items = [
     {
@@ -59,6 +77,20 @@ export class HomeComComponent {
       numScroll: 1,
     },
   ];
+
+  handleAddToCart(id: string) {
+    this.store.dispatch(increaseCartCount());
+    this.cartService
+      .addToCart({ productId: id, quantity: 1 })
+      .subscribe((res) => {
+        this.store.dispatch(loadCartItems());
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Message Content',
+        });
+      });
+  }
 
   ngOnInit() {
     this.getAllProducts();

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ICartItemsProps } from '../models/cart';
+import { ICartApiResponse, ICartItemsProps } from '../models/cart';
 import { API_BASE_URL } from '../../config';
 import { Observable } from 'rxjs';
 
@@ -15,5 +15,11 @@ export class CartService {
       productId: item.productId,
       quantity: item.quantity,
     });
+  }
+  getCartItems(): Observable<ICartApiResponse[]> {
+    return this.http.get<ICartApiResponse[]>(`${API_BASE_URL}/cart`);
+  }
+  updateCartItems(data:any[]): Observable<any> {
+    return this.http.patch<any>(`${API_BASE_URL}/cart`, data);
   }
 }

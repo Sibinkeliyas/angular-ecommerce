@@ -103,9 +103,9 @@
           /></a>
           <a [routerLink]="'cart'"
             ><img src="img/icon/cart.png" alt="" />
-            <span class="mb-1">{{ cartCount$ | async }}</span></a
+            <span class="mb-1">{{ (cart$ | async)?.length || 0 }}</span></a
           >
-          <div class="price">$0.00</div>
+          <div class="price">${{ total }}</div>
         </div>
       </div>
     </div>

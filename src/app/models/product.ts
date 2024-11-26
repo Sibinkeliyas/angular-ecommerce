@@ -6,8 +6,20 @@ export interface IProducts {
   createdAt: string;
   images: string[];
   name: string;
-  price: 43;
-  rating: 4.2;
+  price: number;
+  rating: number;
   sale: boolean;
   updatedAt: string;
+}
+
+export interface IProduct {
+  _id: string;
+  name: string;
+  price: 3239;
+  categoryId: string;
+  brandId: string;
+  availableSizes: string[];
+  rating: 4;
+  sale: true;
+  images: string[];
 }
